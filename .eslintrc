@@ -1,0 +1,25 @@
+{
+	"extends": ["react-app", "prettier"],
+	"globals": {
+		"ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION": true,
+		"page": true,
+		"REACT_APP_ENV": false
+	},
+	"plugins": ["react", "prettier", "eslint-comments"],
+	"rules": {
+		// "prettier/prettier": [
+		// 	"warn",
+		// 	{
+		// 		"arrowParens": "avoid",
+		// 		"semi": true,
+		// 		"trailingComma": "none",
+		// 		"endOfLine": "auto",
+		// 		"tabWidth": 4,
+		// 		"printWidth": 80,
+		// 		"useTabs": true
+		// 	}
+		// ],
+		"eqeqeq": 0,
+		"eslint-comments/disable-enable-pair": ["error", {"allowWholeFile": true}]
+	}
+}
