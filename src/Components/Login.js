@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import $ from "jquery";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { refreshTokenSetup } from "./RefreshToken";
+import { authenticate } from "../services/user";
 
 export default function Login() {
 	const [username, setUsername] = useState(null);
@@ -32,40 +33,77 @@ export default function Login() {
 		// })
 	});
 
+	const actionLogin = () => {
+		localStorage.removeItem("jwt");
+		authenticate({
+			username,
+			password
+		}).then(({ data }) => {
+			if (data.status !== "failed") {
+				console.log("data: ", data);
+				localStorage.setItem("jwt", data?.data?.jwt?.token);
+				localStorage.setItem("userId", data?.data?.userId);
+				toast.success("Đăng nhập thành công", {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined
+				});
+				history.push("/");
+			} else {
+				toast.warn("Hình Như sai pass òi", {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined
+				});
+			}
+		});
+	};
+
 	const login = async event => {
 		event.preventDefault();
-		try {
-			let info = await API.get(endpoints["oauth2-info"]);
-			let res = await API.post(endpoints["login"], {
-				client_id: info.data.client_id,
-				client_secret: info.data.client_secret,
-				username: username,
-				password: password,
-				grant_type: "password"
-			});
-			cookie.save("access_token", res.data.access_token);
-			let user = await API.get(endpoints["current_user"], {
-				headers: {
-					Authorization: `Bearer ${cookie.load("access_token")}`
-				}
-			});
 
-			cookie.save("user", user.data);
-			dispatch(LoginUser(user.data));
-			console.log(user.data);
-			history.push("/");
-		} catch (err) {
-			console.error(err);
-			toast.warn("Hình Như sai pass òi", {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined
-			});
-		}
+		actionLogin();
+		// try {
+		// 	let info = await API.get(endpoints["oauth2-info"]);
+		// 	let res = await API.post(endpoints["login"], {
+		// 		client_id: info.data.client_id,
+		// 		client_secret: info.data.client_secret,
+		// 		username: username,
+		// 		password: password,
+		// 		grant_type: "password"
+		// 	});
+		// 	cookie.save("access_token", res.data.access_token);
+		// 	let user = await API.get(endpoints["current_user"], {
+		// 		headers: {
+		// 			Authorization: `Bearer ${cookie.load("access_token")}`
+		// 		}
+		// 	});
+
+		// 	cookie.save("user", user.data);
+		// 	dispatch(LoginUser(user.data));
+		// 	console.log(user.data);
+
+		// 	history.push("/");
+		// } catch (err) {
+		// 	console.error(err);
+		// 	toast.warn("Hình Như sai pass òi", {
+		// 		position: "top-right",
+		// 		autoClose: 5000,
+		// 		hideProgressBar: false,
+		// 		closeOnClick: true,
+		// 		pauseOnHover: true,
+		// 		draggable: true,
+		// 		progress: undefined
+		// 	});
+		// }
 	};
 
 	window.onload = function () {

@@ -26,6 +26,8 @@ import Search from "./Components/Search";
 import Destination from "./Components/Destination";
 // pages admin
 import DashBoard from "./Components/admin";
+import TourDetailCustom from "./Components/TourDetailCustom";
+import OrderList from "./Components/OrderList";
 
 export default function App() {
 	const user = useSelector(state => state.user.user);
@@ -83,6 +85,12 @@ export default function App() {
 						path="/tour_detail/:tourdetailId/"
 						component={TourDetail}
 					/>
+					<Route
+						exact
+						path="/tour_detail_custom/:id/"
+						component={TourDetailCustom}
+					/>
+					<Route exact path="/order_list/" component={OrderList} />
 					<Route
 						exact
 						path="/tour_detail/:tourdetailId/booking/"

@@ -21,7 +21,7 @@ AxiosInstance.interceptors.request.use(function (config) {
 AxiosInstance.interceptors.response.use(
 	undefined,
 	function axiosRetryInterceptor(err) {
-		//  window.location.href = "/user-pages/login-1";
+		window.location.href = "/login";
 		return Promise.reject(err);
 	}
 );

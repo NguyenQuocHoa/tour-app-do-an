@@ -811,16 +811,36 @@ const ListTour = () => {
 
 const TourItem = props => {
 	const { tour } = props;
+	const history = useHistory();
 	return (
 		<div class="col-md-12 mb-5">
 			<div class="row justify-content-center mt-3">
 				<img
 					src={`${API_ENDPOINT}/api/v1/FileUpload/files/${tour.image}`}
 					alt="image_tour"
+					onClick={() =>
+						history.push(`/tour_detail_custom/${tour.id}`)
+					}
 				/>
 			</div>
 			<div class="row justify-content-center mt-2">
-				<Button>XEM CHI TIẾT</Button>
+				<div class="col-md-4">
+					<h4>{tour.code}</h4>
+				</div>
+				<div class="col-md-4">
+					<h4>{tour.time}</h4>
+				</div>
+				<div class="col-md-12">
+					<div class="row justify-content-center">
+						<Button
+							onClick={() =>
+								history.push(`/tour_detail_custom/${tour.id}`)
+							}
+						>
+							XEM CHI TIẾT
+						</Button>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
