@@ -191,7 +191,7 @@ const ModalOrder = props => {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{createSuccess ? (
+				{!createSuccess ? (
 					<>
 						<Record label="Mã tour" value={tour.code} />
 						<RecordInput
@@ -246,6 +246,12 @@ const ModalOrder = props => {
 						</div>
 						<div class="row justify-content-center">
 							<div>Mã đơn hàng: {order.code}</div>
+						</div>
+						<div class="row justify-content-center">
+							<div style={{ color: "#f15d30" }}>
+								Giá trị đơn hàng:{" "}
+								{formatRealNumber(order.totalAmount)}
+							</div>
 						</div>
 						<div class="row mt-3 mb-5 justify-content-center">
 							<Button
